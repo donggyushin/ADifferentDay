@@ -26,13 +26,13 @@ const Today = styled.Text`
   margin-bottom: 5px;
 `;
 
-const Header = ({ today, month, todayNum }) => (
+const Header = ({ dayLabel, month, today }) => (
   <LinearGradient
     colors={[Colors.firstDate, Colors.orangeVille]}
     style={styles.linearGradient}
   >
     <Today>
-      {today}, {month} {todayNum}
+      {dayLabel}, {month} {today}
     </Today>
     {OS === "ios" ? (
       <Ionicons size={40} name={"ios-calendar"} color={Colors.white} />
