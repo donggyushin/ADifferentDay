@@ -28,7 +28,7 @@ const Today = styled.Text`
 
 const Header = ({ dayLabel, month, today }) => (
   <LinearGradient
-    colors={[Colors.firstDate, Colors.orangeVille]}
+    colors={[Colors.greenDarnerTail, Colors.electronBlue]}
     style={styles.linearGradient}
   >
     <Today>
@@ -45,7 +45,7 @@ const Header = ({ dayLabel, month, today }) => (
 const styles = StyleSheet.create({
   linearGradient: {
     width: Layout.width,
-    height: Layout.height / 8.5,
+    height: Layout.headerHeight,
     paddingLeft: 30,
     flexDirection: "row",
     justifyContent: "space-between",

@@ -8,6 +8,9 @@ const DEEP_BLUE_BACKGROUND = "#0652DD";
 const FIRST_DATE = "#fab1a0";
 const ORANGEVILLE = "#e17055";
 
+const GREEN_DARNER_TAIL = "#74b9ff";
+const ELECTORN_BLUE = "#0984e3";
+
 const Colors = {
   normalBlueBackground: NORMAL_BLUE_BACKGROUND,
   white: WHITE,
@@ -17,7 +20,9 @@ const Colors = {
   americanRiver: AMERICAN_RIVER,
   deepBlueBackground: DEEP_BLUE_BACKGROUND,
   firstDate: FIRST_DATE,
-  orangeVille: ORANGEVILLE
+  orangeVille: ORANGEVILLE,
+  greenDarnerTail: GREEN_DARNER_TAIL,
+  electronBlue: ELECTORN_BLUE
 };
 
 export default Colors;

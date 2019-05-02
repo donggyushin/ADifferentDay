@@ -5,9 +5,19 @@ const { width, height } = Dimensions.get("window");
 const WIDTH = width;
 const HEIGHT = height;
 
+const HEADER_HEIGHT = HEIGHT / 8.5;
+const BODY_HEIGHT = HEIGHT - HEADER_HEIGHT;
+
+const ADDNEW_WIDTH = WIDTH / 1.5;
+const ADDNEW_HEIGHT = HEIGHT / 15;
+
 const Layout = {
   width: WIDTH,
-  height: HEIGHT
+  height: HEIGHT,
+  headerHeight: HEADER_HEIGHT,
+  bodyHeight: BODY_HEIGHT,
+  addnewWidth: ADDNEW_WIDTH,
+  addnewHeight: ADDNEW_HEIGHT
 };
 
 export default Layout;
