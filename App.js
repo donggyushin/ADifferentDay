@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import { StatusBar } from "react-native";
 import Colors from "./constants/Colors";
 import GetToday from "./utils/GetToday";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const Container = styled.View`
   flex: 1;
@@ -14,7 +15,7 @@ const Container = styled.View`
 
 const Text = styled.Text``;
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     dayLabel: "",
     month: "",
@@ -41,3 +42,15 @@ export default class App extends React.Component {
     );
   }
 }
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: App,
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    })
+  },
+  initialRouteName: "Home"
+});
+
+export default createAppContainer(AppNavigator);
