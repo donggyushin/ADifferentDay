@@ -8,6 +8,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import Layout from "./constants/Layout";
 import AddNew from "./components/AddNew";
 import ToDoItem from "./components/ToDoItem";
+import { AsyncStorage } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -39,21 +40,34 @@ class App extends React.Component {
     month: "",
     today: "",
     addNew: "",
-    todos: ["leasdlkjasdlkj"]
+    todos: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { dayLabel, monthLabel, day } = GetToday();
     this.setState({
       dayLabel,
       month: monthLabel,
       today: day
     });
+
+    try {
+      let todos = await AsyncStorage.getItem("TODOS");
+      if (todos) {
+        todos = JSON.parse(todos);
+        this.setState({
+          todos
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
-    const { dayLabel, month, today, addNew } = this.state;
+    const { dayLabel, month, today, addNew, todos } = this.state;
     const { handleAddNewText, handleSubmitEditing } = this;
+
     return (
       <Container>
         <StatusBar barStyle="light-content" />
@@ -67,19 +81,54 @@ class App extends React.Component {
         </AddNewContainer>
         <Body>
           <BodyContainer>
-            <ToDoItem todo={"Lee Jeong hyeun byeung sin"} />
-            <ToDoItem todo={"Dong Gyu Zzang"} />
+            {todos
+              ? todos.map(todo => <ToDoItem key={todo.key} todo={todo.text} />)
+              : null}
           </BodyContainer>
         </Body>
       </Container>
     );
   }
 
-  handleSubmitEditing = ({ nativeEvent: { text, eventCount, target } }) => {
-    console.log(text);
+  handleSubmitEditing = async ({
+    nativeEvent: { text, eventCount, target }
+  }) => {
     this.setState({
       addNew: ""
     });
+    try {
+      let key = await AsyncStorage.getItem("KEY");
+      if (key) {
+        key = parseInt(key);
+      }
+      if (!key) {
+        key = 0;
+      }
+      key = key + 1;
+      const newToDo = {
+        key,
+        text,
+        done: false
+      };
+      key = key.toString();
+      await AsyncStorage.setItem("KEY", key);
+
+      this.setState({
+        todos: [...this.state.todos, newToDo]
+      });
+      const todos = await AsyncStorage.getItem("TODOS");
+      if (todos) {
+        let previousTodos = await AsyncStorage.getItem("TODOS");
+        previousTodos = JSON.parse(previousTodos);
+        previousTodos.push(newToDo);
+        await AsyncStorage.setItem("TODOS", JSON.stringify(previousTodos));
+      } else {
+        const todos = [newToDo];
+        await AsyncStorage.setItem("TODOS", JSON.stringify(todos));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleAddNewText = text => {
