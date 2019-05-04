@@ -26,19 +26,27 @@ const Today = styled.Text`
   margin-bottom: 5px;
 `;
 
+const Title = styled.Text`
+  color: ${Colors.white};
+  font-size: ${Sizes.titleFontSize};
+  margin-bottom: 15px;
+`;
+
 const Header = ({ dayLabel, month, today }) => (
   <LinearGradient
-    colors={[Colors.greenDarnerTail, Colors.electronBlue]}
+    colors={[Colors.electronBlue, Colors.greenDarnerTail]}
     style={styles.linearGradient}
   >
-    <Today>
+    {/* <Today>
       {dayLabel}, {month} {today}
     </Today>
     {OS === "ios" ? (
       <Ionicons size={40} name={"ios-calendar"} color={Colors.white} />
     ) : (
       <Ionicons size={40} name={"md-calendar"} color={Colors.white} />
-    )}
+    )} */}
+
+    <Title>A Different Day</Title>
   </LinearGradient>
 );
 
@@ -48,7 +56,8 @@ const styles = StyleSheet.create({
     height: Layout.headerHeight,
     paddingLeft: 30,
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "flex-end",
     paddingRight: 30
   }

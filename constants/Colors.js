@@ -11,6 +11,11 @@ const ORANGEVILLE = "#e17055";
 const GREEN_DARNER_TAIL = "#74b9ff";
 const ELECTORN_BLUE = "#0984e3";
 
+const TRASH_BACKGROUND = "#e74c3c";
+const CHECK_BACKGROUND = "#2ecc71";
+
+const TODOITEM_UNDERLINE = "#bdc3c7";
+
 const Colors = {
   normalBlueBackground: NORMAL_BLUE_BACKGROUND,
   white: WHITE,
@@ -22,7 +27,10 @@ const Colors = {
   firstDate: FIRST_DATE,
   orangeVille: ORANGEVILLE,
   greenDarnerTail: GREEN_DARNER_TAIL,
-  electronBlue: ELECTORN_BLUE
+  electronBlue: ELECTORN_BLUE,
+  trashBackground: TRASH_BACKGROUND,
+  checkBackground: CHECK_BACKGROUND,
+  todoitemUnderline: TODOITEM_UNDERLINE
 };
 
 export default Colors;

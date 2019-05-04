@@ -7,6 +7,7 @@ import GetToday from "./utils/GetToday";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Layout from "./constants/Layout";
 import AddNew from "./components/AddNew";
+import ToDoItem from "./components/ToDoItem";
 
 const Container = styled.View`
   flex: 1;
@@ -22,6 +23,11 @@ const Body = styled.ScrollView`
   height: ${Layout.bodyHeight};
 `;
 
+const BodyContainer = styled.View`
+  flex: 1;
+  padding: 7px;
+`;
+
 const AddNewContainer = styled.View`
   margin-top: 20px;
   margin-bottom: 20px;
@@ -32,7 +38,8 @@ class App extends React.Component {
     dayLabel: "",
     month: "",
     today: "",
-    addNew: ""
+    addNew: "",
+    todos: ["leasdlkjasdlkj"]
   };
 
   componentDidMount() {
@@ -59,7 +66,10 @@ class App extends React.Component {
           />
         </AddNewContainer>
         <Body>
-          <Text>This is A Different Day!</Text>
+          <BodyContainer>
+            <ToDoItem todo={"Lee Jeong hyeun byeung sin"} />
+            <ToDoItem todo={"Dong Gyu Zzang"} />
+          </BodyContainer>
         </Body>
       </Container>
     );
