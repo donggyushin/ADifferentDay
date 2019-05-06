@@ -9,6 +9,7 @@ import Layout from "./constants/Layout";
 import AddNew from "./components/AddNew";
 import ToDoItem from "./components/ToDoItem";
 import { AsyncStorage } from "react-native";
+import DeleteAllButton from "./components/DeleteAllButton";
 
 const Container = styled.View`
   flex: 1;
@@ -17,16 +18,17 @@ const Container = styled.View`
   justify-content: flex-start;
 `;
 
-const Text = styled.Text``;
-
 const Body = styled.ScrollView`
   width: ${Layout.width};
-  height: ${Layout.bodyHeight};
+  padding-left: 10px;
 `;
 
-const BodyContainer = styled.View`
-  flex: 1;
-  padding: 7px;
+const DeleteAllButtonContainer = styled.View`
+  width: ${Layout.width};
+  height: ${Layout.deleteAllButtonContainerHeight};
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const AddNewContainer = styled.View`
@@ -45,6 +47,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     const { dayLabel, monthLabel, day } = GetToday();
+
     this.setState({
       dayLabel,
       month: monthLabel,
@@ -66,7 +69,13 @@ class App extends React.Component {
 
   render() {
     const { dayLabel, month, today, addNew, todos } = this.state;
-    const { handleAddNewText, handleSubmitEditing } = this;
+    const {
+      handleAddNewText,
+      handleSubmitEditing,
+      clickTrashButton,
+      clickCheckButton,
+      deleteAllTodos
+    } = this;
 
     return (
       <Container>
@@ -80,15 +89,67 @@ class App extends React.Component {
           />
         </AddNewContainer>
         <Body>
-          <BodyContainer>
-            {todos
-              ? todos.map(todo => <ToDoItem key={todo.key} todo={todo.text} />)
-              : null}
-          </BodyContainer>
+          {todos
+            ? todos.map(todo => (
+                <ToDoItem
+                  clickTrashButton={clickTrashButton}
+                  clickCheckButton={clickCheckButton}
+                  key={todo.key}
+                  todo={todo.text}
+                  id={todo.key}
+                  done={todo.done}
+                />
+              ))
+            : null}
         </Body>
+        <DeleteAllButtonContainer>
+          <DeleteAllButton deleteAllTodos={deleteAllTodos} />
+        </DeleteAllButtonContainer>
       </Container>
     );
   }
+
+  deleteAllTodos = async () => {
+    this.setState({
+      todos: []
+    });
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  clickTrashButton = async key => {
+    const { todos } = this.state;
+    // I will use filter method to get updated array.
+    // At first, i have to delete clicked item in state
+    const editedTodos = todos.filter(todo => todo.key !== key);
+    this.setState({
+      todos: editedTodos
+    });
+    // and then, i have to delete clicked item in AsyncStorage.
+    await AsyncStorage.setItem("TODOS", JSON.stringify(editedTodos));
+  };
+
+  clickCheckButton = async key => {
+    const { todos } = this.state;
+    // At first, i have to update clicked item in state
+
+    for (var i in todos) {
+      if (todos[i].key == key) {
+        todos[i].done = !todos[i].done;
+        break;
+      }
+    }
+    const editedTodos = this.state.todos;
+    this.setState({
+      todos: editedTodos
+    });
+
+    // and then, i have to update clicked item in AsyncStorage
+    await AsyncStorage.setItem("TODOS", JSON.stringify(editedTodos));
+  };
 
   handleSubmitEditing = async ({
     nativeEvent: { text, eventCount, target }
