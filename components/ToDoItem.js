@@ -34,7 +34,7 @@ const DoneText = styled.Text`
 const ToDoItem = ({ todo, clickTrashButton, id, clickCheckButton, done }) => {
   const swipeoutBtns = [
     {
-      component: <CheckButton />,
+      component: <CheckButton done={done} />,
       onPress: () => clickCheckButton(id)
     },
     {
